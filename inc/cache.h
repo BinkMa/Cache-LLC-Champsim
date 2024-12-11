@@ -37,6 +37,7 @@
 #include "operable.h"
 #include <type_traits>
 
+
 struct cache_stats {
   std::string name;
   // prefetch stats
@@ -51,6 +52,7 @@ struct cache_stats {
 
   double avg_miss_latency = 0;
   uint64_t total_miss_latency = 0;
+
 };
 
 class CACHE : public champsim::operable
@@ -62,6 +64,12 @@ class CACHE : public champsim::operable
   using channel_type = champsim::channel;
   using request_type = typename channel_type::request_type;
   using response_type = typename channel_type::response_type;
+
+ uint64_t current_core_cycle[NUM_CPUS], 
+                stall_cycle[NUM_CPUS], 
+                last_drc_read_mode, 
+                last_drc_write_mode,
+                drc_blocks;
 
   struct tag_lookup_type {
     uint64_t address;
